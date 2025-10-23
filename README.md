@@ -12,19 +12,38 @@ A lightweight API server for managing Kubernetes Sandbox environments with trans
 
 ## Quick Start
 
-### Build
+### Option 1: Deploy to Kubernetes (Recommended)
 
 ```bash
-make build
+# Build Docker image
+make docker-build
+
+# For kind cluster
+make kind-load
+
+# Deploy to Kubernetes
+make k8s-deploy
+
+# Check status
+kubectl get pods -n pico-apiserver
+make k8s-logs
+
+# Port forward for testing
+kubectl port-forward -n pico-apiserver svc/pico-apiserver 8080:8080
 ```
 
-### Run
+See [k8s/README.md](k8s/README.md) for detailed deployment instructions.
+
+### Option 2: Local Development
 
 ```bash
-# Development mode (no Kubernetes required)
+# Build binary
+make build
+
+# Run locally (no Kubernetes required for testing)
 ./bin/pico-apiserver --port=8080
 
-# With Kubernetes
+# Or with Kubernetes
 ./bin/pico-apiserver \
   --port=8080 \
   --kubeconfig=$HOME/.kube/config \
